@@ -1,11 +1,9 @@
 import prisma from '@/prisma/client';
 import { notFound } from 'next/navigation';
 
-import React from 'react'
-import loadingIssuePageDetails from './loadignissue';
-import { Card, Flex, Heading, Text } from '@radix-ui/themes';
 import IssueStatusBadge from '@/app/components/IssueStatusBadge';
-import ReactMarkdown from 'react-markdown'
+import { Card, Flex, Heading, Text } from '@radix-ui/themes';
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
     params:{id:string}
@@ -16,6 +14,7 @@ const issueDetailPage = async ({params}:Props) => {
     });
     if(!issue)
         notFound();
+     
     
   return (
    
