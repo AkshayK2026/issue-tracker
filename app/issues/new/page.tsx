@@ -1,8 +1,10 @@
-import IssueForm from "../_components/issueForm"
+import React from 'react'
+import IssueForm from '../_components/IssueForm'
 
- const NewIssueForm = ()=>{
-  return(
+const NewIssuePage = () => {
+  return (
     <IssueForm/>
   )
- }
- export default NewIssueForm
+}
+
+export default NewIssuePage

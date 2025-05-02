@@ -1,27 +1,29 @@
 'use client';
-import { Button, TextField, Callout, Spinner } from '@radix-ui/themes';
 import ErrorMessage from '@/app/components/ErrorMessage';
-import dynamic from 'next/dynamic'; 
-import { useForm, Controller } from 'react-hook-form';
+import { issueSchema } from '@/app/ValidationSchemas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Issue } from '@prisma/client';
+import { Button, Callout, Spinner, TextField } from '@radix-ui/themes';
 import axios from 'axios';
 import 'easymde/dist/easymde.min.css';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { createIssueSchema } from '@/app/ValidationSchemas';
-import {z} from 'zod';
-import { Issue } from '@prisma/client';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
+const SimpleMDE = dynamic(
+  () => import('react-simplemde-editor'),
+  { ssr: false } // Disable server-side rendering for this component
+);
 
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
-
-type IssueFormData =z.infer<typeof createIssueSchema>;
+type IssueFormData =z.infer<typeof issueSchema>;
 
 
 const IssueForm = ({issue}:{issue?:Issue}) => {
   const router = useRouter();
 
   const { register, control, handleSubmit ,formState:{errors}} = useForm<IssueFormData>({
-    resolver:zodResolver(createIssueSchema)
+    resolver:zodResolver(issueSchema)
 
   });
   const [error,setError] = useState("")
@@ -30,7 +32,10 @@ const IssueForm = ({issue}:{issue?:Issue}) => {
 
   const onSubmit = async (data: IssueFormData) => {
     try {
-      setSubmitting(true)
+      setSubmitting(true);
+      if(issue)
+        await axios.patch("/api/issues"+ issue.id,data);
+      else
       await axios.post("/api/issues", data);
       router.push("/issues");
     } catch (error) {
@@ -64,10 +69,16 @@ const IssueForm = ({issue}:{issue?:Issue}) => {
         )}
       />
      
-      <Button disabled={isSubmitting}>Submit New issue {isSubmitting &&<Spinner/>}</Button>
+      <Button disabled={isSubmitting}>
+        {issue?"Update Issue":"Submit New issue"}{''}
+        
+ {isSubmitting &&<Spinner/>}</Button>
     </form>
     </div>
   );
 };
 
 export default IssueForm;
+
+
+
