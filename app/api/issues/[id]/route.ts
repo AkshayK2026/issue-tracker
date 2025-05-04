@@ -2,7 +2,7 @@ import { issueSchema } from "@/app/ValidationSchemas";
 import prisma from "@/prisma/client";
 import { error } from "console";
 import { NextResponse } from "next/server";
-import { string } from "zod";
+
 
    export  async function PATCH(
     request:NextResponse,
@@ -24,3 +24,17 @@ import { string } from "zod";
         });
         return NextResponse.json(updatedIssue)
    }
+   export  async function DELETE(
+    request:NextResponse,
+    {params}:{params:{id:string}}){
+      const issue=await prisma.issue.findUnique({
+        where:{id:parseInt(params.id)}
+      });
+      if(!issue)
+        return NextResponse.json({error:"Invalid issue"},{status:404})
+       await prisma.issue.delete({
+        where:{id:issue.id}
+      });
+      return NextResponse.json({message:"issue is delete sucessfully"});
+
+    }
