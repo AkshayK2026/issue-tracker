@@ -4,6 +4,8 @@ import { error } from "console";
 import { NextResponse } from "next/server";
 
 
+
+
    export  async function PATCH(
     request:NextResponse,
     {params}:{params:{id:string}}){
@@ -27,6 +29,7 @@ import { NextResponse } from "next/server";
    export  async function DELETE(
     request:NextResponse,
     {params}:{params:{id:string}}){
+      
       const issue=await prisma.issue.findUnique({
         where:{id:parseInt(params.id)}
       });
@@ -38,3 +41,11 @@ import { NextResponse } from "next/server";
       return NextResponse.json({message:"issue is delete sucessfully"});
 
     }
+
+
+// function delay(arg0: number) {
+//   throw new Error("Function not implemented.");
+// }
+// // function delay(arg0: number) {
+// //   throw new Error("Function not implemented.");
+// // }

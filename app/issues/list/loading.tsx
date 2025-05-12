@@ -1,9 +1,8 @@
 import { Table } from '@radix-ui/themes'
 import React from 'react'
-import IssueStatusBadge from '../components/IssueStatusBadge'
+import IssueStatusBadge from '../../components/IssueStatusBadge'
 import {Skeleton} from "@/app/components"
-import IssueActions from './new/IssueActions'
-
+import IssueActions from './IssueActions';
 const issue=[1,2,3,4,5]
 
 

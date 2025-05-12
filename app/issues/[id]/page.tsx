@@ -9,10 +9,12 @@ import DeleteIssueButton from './DeleteIssueButton';
 interface Props {
     params:{id:string}
 }
-const issueDetailPage = async ({params}:Props) => {
-    const issue= await prisma.issue.findUnique({
-        where :{id:parseInt(params.id)},
-    });
+const issueDetailPage = async ({ params }: Props) => {
+  const id = parseInt(params.id); // safely extract first
+  const issue = await prisma.issue.findUnique({
+    where: { id },
+  });
+
     if(!issue) 
         notFound();
      
