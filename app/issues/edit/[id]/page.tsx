@@ -1,5 +1,5 @@
 import React from 'react';
-import IssueForm from '../../list/IssueForm';
+import IssueForm from '@/app/issues/_components/IssueForm';
 import prisma from '@/prisma/client';
 import { notFound } from 'next/navigation'; // ✅ Import real notFound
 

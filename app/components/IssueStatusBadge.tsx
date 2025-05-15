@@ -6,8 +6,8 @@ interface props{
 }
 const statusMap:Record<Status,{label:string ,color:'red' |'violet' |'green'}>={
    OPEN:{label:'open',color:'red'},
-   IN_PROGERESS:{label:'in_progress',color:'violet'},
-   CLOSE:{label:'closed',color:'green'} 
+   IN_PROGRESS:{label:' IN_PROGERESS',color:'violet'},
+   CLOSED:{label:'closed',color:'green'} 
 };
 
 

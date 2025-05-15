@@ -14,7 +14,7 @@ import { NextResponse } from "next/server";
           if (!validation.success)
             return NextResponse.json(validation.error.format(),{status:400})
         const issue= await prisma.issue.findUnique(
-          {where:{id:parseInt(params.id)}});
+          { where:{id:parseInt(params.id)}});
         if(!issue) 
             return NextResponse.json({error:'Invalid issue'}, {status:200})
         const updatedIssue=await prisma.issue.update({
