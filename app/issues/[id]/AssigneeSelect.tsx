@@ -2,24 +2,26 @@
 
 import { Select } from '@radix-ui/themes';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { User } from '@prisma/client'; 
+import {Skeleton} from '@/app/components';
+
+// fetch function outside component
+const fetchUsers = async (): Promise<User[]> => {
+  const { data } = await axios.get('/api/users');
+  return data;
+};
 
 const AssigneeSelect = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const { data: users = [], isLoading, isError } = useQuery<User[]>({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+    staleTime:60*100,
+    retry:3
+  });
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const { data } = await axios.get<User[]>('/api/users');
-        setUsers(data);
-      } catch (error) {
-        console.error('Failed to fetch users:', error);
-      }
-    };
-
-    fetchUsers();
-  }, []);
+  if (isLoading) return <Skeleton/> ;
+  if (isError) return <div>Failed to load users.</div>;
 
   return (
     <Select.Root>
