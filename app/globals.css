@@ -2,3 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  color: rgb(var(--foreground));
+}
+
+@layer utilities {
+  .nav-link {
+    @apply   text-zinc-500 hover:text-zinc-800 transition-colors;
+  }
+}
